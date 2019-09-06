@@ -24,22 +24,19 @@ func saveUser(c echo.Context) error {
 	return c.JSON(200, user)
 }
 
-/**
-*
- 1.Dado os seguintes dados:
+func desafio1(c echo.Context) error {
+	var result []string
+	var naipes = []string{"C", "E", "P", "O"}
+	var valores = []string{"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"}
+	for i := 0; i < len(naipes); i++ {
+		for j := 0; j < len(valores); j++ {
+			result = append(result, naipes[i]+valores[j]+",")
+		}
+	}
+	return c.String(http.StatusOK, "["+strings.Join(result, " ")+"]")
+}
 
- Naipes: Copas, Espadas, Paus, Ouros (C,E,P,O)
- Valores: A,2,3,4,5,6,7,8,9,T,J,Q,K
-
- 1.1 - Criar todas as combinações possiveis(utilizando loops)
-
- Ex.:
- As de Copas = AC
- 2 de Paus = 2P
-
- Retorno ["AC", "2C", "3C", ...]
-*/
-func desafio(c echo.Context) error {
+func desafio2(c echo.Context) error {
 	var result []string
 	var naipes = []string{"C", "E", "P", "O"}
 	var valores = []string{"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"}
