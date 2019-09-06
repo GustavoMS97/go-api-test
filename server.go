@@ -8,20 +8,19 @@ import (
 )
 
 type User struct {
-	ID    string `json:"id,omitempty"`
-	name  string `json:"name,omitempty"`
-	email string `json:"email,omitempty"`
+	Name  string `json:"name,omitempty"`
+	Email string `json:"email,omitempty"`
 }
 
-var users []User
-
 func saveUser(c echo.Context) error {
-	u := new(User)
-	fmt.Println(u)
-	if err := c.Bind(u); err != nil {
+	var user User
+	m := echo.Map{}
+	if err := c.Bind(&m); err != nil {
 		return err
 	}
-	return c.JSON(http.StatusCreated, c)
+	user.Name = fmt.Sprintf("%v", m["name"])
+	user.Email = fmt.Sprintf("%v", m["email"])
+	return c.JSON(200, user)
 }
 
 func getUser(c echo.Context) error {
