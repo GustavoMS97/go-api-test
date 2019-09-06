@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/labstack/echo"
 )
@@ -23,6 +24,33 @@ func saveUser(c echo.Context) error {
 	return c.JSON(200, user)
 }
 
+/**
+*
+ 1.Dado os seguintes dados:
+
+ Naipes: Copas, Espadas, Paus, Ouros (C,E,P,O)
+ Valores: A,2,3,4,5,6,7,8,9,T,J,Q,K
+
+ 1.1 - Criar todas as combinações possiveis(utilizando loops)
+
+ Ex.:
+ As de Copas = AC
+ 2 de Paus = 2P
+
+ Retorno ["AC", "2C", "3C", ...]
+*/
+func desafio(c echo.Context) error {
+	var result []string
+	var naipes = []string{"C", "E", "P", "O"}
+	var valores = []string{"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"}
+	for i := 0; i < len(naipes); i++ {
+		for j := 0; j < len(valores); j++ {
+			result = append(result, naipes[i]+valores[j]+",")
+		}
+	}
+	return c.String(http.StatusOK, "["+strings.Join(result, " ")+"]")
+}
+
 func getUser(c echo.Context) error {
 	id := c.Param("id")
 	return c.String(http.StatusOK, id)
@@ -39,5 +67,6 @@ func main() {
 	e.POST("/users", saveUser)
 	e.GET("/users/:id", getUser)
 	e.GET("/show", show)
+	e.GET("/desafio", desafio)
 	e.Logger.Fatal(e.Start(":3333"))
 }
