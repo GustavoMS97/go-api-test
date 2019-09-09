@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"net/http"
 	"strings"
 
@@ -42,10 +43,13 @@ func desafio2(c echo.Context) error {
 	var valores = []string{"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"}
 	for i := 0; i < len(naipes); i++ {
 		for j := 0; j < len(valores); j++ {
-			result = append(result, naipes[i]+valores[j]+",")
+			result = append(result, naipes[i]+valores[j])
 		}
 	}
-	return c.String(http.StatusOK, "["+strings.Join(result, " ")+"]")
+	var carta1 = rand.Intn(len(result)-0) + 0
+	var carta2 = rand.Intn(len(result)-0) + 0
+	response := fmt.Sprintf("Carta 1: %s\nCarta 2: %s", result[carta1], result[carta2])
+	return c.String(http.StatusOK, response)
 }
 
 func getUser(c echo.Context) error {
@@ -64,6 +68,7 @@ func main() {
 	e.POST("/users", saveUser)
 	e.GET("/users/:id", getUser)
 	e.GET("/show", show)
-	e.GET("/desafio", desafio)
+	e.GET("/desafio1", desafio1)
+	e.GET("/desafio2", desafio2)
 	e.Logger.Fatal(e.Start(":3333"))
 }
