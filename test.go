@@ -7,12 +7,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Person : Struct de pessoa.
 type Person struct {
 	ID        string   `json:"id,omitempty"`
 	Firstname string   `json:"firstname,omitempty"`
 	Lastname  string   `json:"lastname,omitempty"`
 	Address   *Address `json:"address,omitempty"`
 }
+
+// Address : Struct de endereço
 type Address struct {
 	City  string `json:"city,omitempty"`
 	State string `json:"state,omitempty"`
@@ -20,10 +23,12 @@ type Address struct {
 
 var people []Person
 
+// GetPeople : Função para retornar todas as pessoas.
 func GetPeople(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(people)
 }
 
+// GetPerson : Função para retornar uma pessoa.
 func GetPerson(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	for _, item := range people {
@@ -34,6 +39,8 @@ func GetPerson(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(&Person{})
 }
+
+// CreatePerson : Função para criar uma pessoa.
 func CreatePerson(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var person Person
@@ -43,6 +50,8 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(people)
 
 }
+
+// DeletePerson : Função para deletar uma pessoa.
 func DeletePerson(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	for index, item := range people {

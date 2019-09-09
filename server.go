@@ -18,6 +18,7 @@ import (
 var clientMongoDb mongo.Client
 var userCollection *mongo.Collection
 
+// User : Struct de usuário.
 type User struct {
 	Name  string `json:"name,omitempty"`
 	Email string `json:"email,omitempty"`
@@ -71,7 +72,7 @@ func getUser(c echo.Context) error {
 	var result User
 	id := c.Param("id")
 	objID, _ := primitive.ObjectIDFromHex(id)
-	filter := bson.D{{"_id", objID}}
+	filter := bson.D{primitive.E{Key: "_id", Value: objID}}
 	err := userCollection.FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {
 		log.Fatal(err)
